@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator using HTML, CSS, JS</title>
+    <style>
+      :root {
+        --primary-color: #4caf50;
+        --secondary-color: #ffffff;
+        --background-color: #f0f0f0;
+        --button-color: #333333;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+      }
+
+      body, html {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--background-color);
+      }
+
+      .calculator {
+        background-color: var(--secondary-color);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        width: 300px;
+      }
+
+      .display input {
+        width: 100%;
+        padding: 15px;
+        font-size: 1.5rem;
+        border: none;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        text-align: right;
+        background-color: var(--background-color);
+      }
+
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      button {
+        padding: 15px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background-color: var(--button-color);
+        color: var(--secondary-color);
+      }
+
+      button:active {
+        transform: scale(0.98);
+        background-color: var(--primary-color);
+      }
+
+      .equal {
+        grid-column: span 2;
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator">
+      <div class="display">
+        <input type="text" id="display" />
+      </div>
+      <div class="buttons">
+        <button onclick="clearDisplay()">AC</button>
+        <button onclick="backspace()">DEL</button>
+        <button onclick="document.getElementById('display').value += '%'">%</button>
+        <button onclick="document.getElementById('display').value += '/'">/</button>
+        <button onclick="document.getElementById('display').value += '7'">7</button>
+        <button onclick="document.getElementById('display').value += '8'">8</button>
+        <button onclick="document.getElementById('display').value += '9'">9</button>
+        <button onclick="document.getElementById('display').value += 'X'">X</button>
+        <button onclick="document.getElementById('display').value += '4'">4</button>
+        <button onclick="document.getElementById('display').value += '5'">5</button>
+        <button onclick="document.getElementById('display').value += '6'">6</button>
+        <button onclick="document.getElementById('display').value += '-'">-</button>
+        <button onclick="document.getElementById('display').value += '1'">1</button>
+        <button onclick="document.getElementById('display').value += '2'">2</button>
+        <button onclick="document.getElementById('display').value += '3'">3</button>
+        <button onclick="document.getElementById('display').value += '+'">+</button>
+        <button onclick="document.getElementById('display').value += '0'">0</button>
+        <button onclick="document.getElementById('display').value += '.'">.</button>
+        <button class="equal" onclick="calculate()">=</button>
+      </div>
+    </div>
+
+<script>
+      function calculate() {
+        var display = document.getElementById("display");
+        var value = display.value;
+        if (value.includes("%")) {
+          var parts = value.split("%");
+          if (parts.length === 2) {
+            var number = parseFloat(parts[0]);
+            var percentage = parseFloat(parts[1]);
+            var result = calculateSpecificPercentage(number, percentage);
+            display.value = result;
+          } else {
+            display.value = "Error";
+          }
+        } else {
+          try {
+            value = value.replace(/X/g, "*");
+            var result = eval(value);
+            display.value = result;
+          } catch (e) {
+            display.value = "Error";
+          }
+        }
+      }
+
+      function clearDisplay() {
+        var display = document.getElementById("display");
+        display.value = "";
+      }
+
+      function backspace() {
+        var display = document.getElementById("display");
+        display.value = display.value.toString().slice(0, -1);
+      }
+
+      function calculateSpecificPercentage(number, percentage) {
+        return (parseFloat(number) * parseFloat(percentage)) / 100;
+      }
+    </script>
+  </body>
+</html>
